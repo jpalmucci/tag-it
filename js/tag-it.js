@@ -34,7 +34,9 @@
             tagSource         : null,
             removeConfirmation: false,
             caseSensitive     : true,
-
+            maxTags           : 9999,//maximum tags allowed default almost unlimited
+            onlyAvailableTags : false,//boolean, allows tags that are in availableTags or not 
+            
             // When enabled, quotes are not neccesary
             // for inputting multi-word tags.
             allowSpaces: false,
@@ -305,6 +307,12 @@
             // Automatically trims the value of leading and trailing whitespace.
             value = $.trim(value);
 
+            if (that.tagList.children('.tagit-choice').length >= that.options.maxTags) {
+                return false; 
+            }
+            if (that.options.onlyAvailableTags && $.inArray(that._formatStr(value),that.options.availableTags)==-1) {
+                return false;
+            }
             if (!this._isNew(value) || value === '') {
                 return false;
             }
